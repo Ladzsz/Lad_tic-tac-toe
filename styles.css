@@ -1,0 +1,20 @@
+header {
+    text-align: center;
+    margin-top: 5%;
+}
+
+form {
+    margin-top: 5%;
+
+}
+
+fieldset {
+    border: none;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+#submit-btn {
+    margin-top: 2%;
+}
