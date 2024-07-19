@@ -8,12 +8,9 @@ function Game() {
 
     //creating the players
 
-    function player1(P1name) {
-        this.P1name = P1name;
-    }
-
-    function player2(P2name) {
-        this.P2name = P2name;
+    function Player(name, symbol) {
+        this.name = name;
+        this.symbol = symbol;
     }
 
     //obtaining player names from user
@@ -21,9 +18,11 @@ function Game() {
         document.querySelector(".name_input").addEventListener("submit", function(event){
             event.preventDefault();
     
-            var player1 = document.getElementById("player1").value;
-    
-            var player2 = document.getElementById("player2").value;
+            const player1 = document.getElementById("player1").value;
+            const player2 = document.getElementById("player2").value;
+
+            const P1 = new Player(player1, "X");
+            const P2 = new Player(player2, "O");
         });
     
 
@@ -52,6 +51,16 @@ function Game() {
         }
         return null; 
     }
+
+    //function to display winner
+
+    function displayWinner() {
+        const winner = checkWinner(gameboard);
+        if (winner) {
+        let results = document.getElementsByClassName("results_display");
+        results.innerHTML = `Congrats! ${winner} wins!`;
+    }
+}
 }
 
 Game();
