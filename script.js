@@ -23,9 +23,29 @@ function Game() {
 
             const P1 = new Player(player1, "X");
             const P2 = new Player(player2, "O");
+
+            event.target.reset();
+
+            rendergame();
         });
     
 
+    //function to render gameboard
+
+    function rendergame() {
+        let board = document.querySelector(".game_display");
+
+        gameboard.forEach(item => {
+            
+            if (item === "") {
+              const cell = document.createElement('div');
+              cell.classList.add('cell');
+              board.appendChild(cell);
+            }
+          });
+    }    
+
+    
     //function to create player move
 
     function playermove(position, symbol) {
