@@ -26,6 +26,9 @@ function Game() {
 
             event.target.reset();
 
+            const inputArea = document.querySelector(".name_input");
+            inputArea.style.display = "none";
+
             rendergame();
         });
     
