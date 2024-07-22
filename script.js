@@ -6,12 +6,19 @@ function Game() {
 
     let gameboard = ['', '', '', '', '', '', '', '', ''];
 
+    //tracking if game is active
+    let gameActive = true;
+
     //creating the players
 
     function Player(name, symbol) {
         this.name = name;
         this.symbol = symbol;
     }
+
+    // Track the current player
+    let currentPlayer;
+    let P1, P2;
 
     //obtaining player names from user
 
@@ -22,11 +29,12 @@ function Game() {
             const player1 = document.getElementById("player1").value;
             const player2 = document.getElementById("player2").value;
 
-            const P1 = new Player(player1, "X");
-            const P2 = new Player(player2, "O");
+            P1 = new Player(player1, "X");
+            P2 = new Player(player2, "O");
+            currentPlayer = P1;
 
 
-            //resetting form 
+            //resetting form and getting rid of input boxes
             event.target.reset();
 
             const inputArea = document.querySelector(".name_input");
@@ -45,9 +53,11 @@ function Game() {
             currentp1.innerHTML = `Player 1: ${P1.name}`;
             currentp2.innerHTML = `Player 2: ${P2.name}`;
 
-
             //calling render
             rendergame();
+
+            //calling update display
+            updateDisplay();
         });
     
 
@@ -58,24 +68,45 @@ function Game() {
         //grabbing board
         let board = document.querySelector(".game_display");
 
-        //creating cells
-        gameboard.forEach(item => {
-            
-            if (item === "") {
-              const cell = document.createElement('div');
-              cell.classList.add('cell');
-              board.appendChild(cell);
+        // Creating cells
+        gameboard.forEach((item, index) => {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.dataset.index = index;
+            cell.innerHTML = item;
+            cell.addEventListener('click', handleCellClick);
+            board.appendChild(cell);
+        });
+    } 
+    
+    //Function to handle cell clicks
+    function handleCellClick(event) {
+        if (!gameActive) return;
+        const index = event.target.dataset.index;
+        if (playermove(index, currentPlayer.symbol)) {
+            event.target.innerHTML = currentPlayer.symbol;
+            displayWinner();
+            if (gameActive) {
+                currentPlayer = currentPlayer === P1 ? P2 : P1;
+                updateDisplay();
             }
-          });
-    }    
+        }
+    }
 
+    // Function to show current player name
+    function updateDisplay() {
+        let playerDisplay = document.querySelector('.display_player')
+        playerDisplay.textContent = `Current player: ${currentPlayer.name}`;
+    }
     
     //function to create player move
 
     function playermove(position, symbol) {
         if (gameboard[position] === "") {
             gameboard[position] = symbol;
+            return true;
         } 
+        return false;
     }
 
     //function to determine winner 
@@ -103,11 +134,68 @@ function Game() {
     function displayWinner() {
         // displaying the winner
         const winner = checkWinner(gameboard);
+        const results = document.querySelector(".results_display");
         if (winner) {
-        let results = document.getElementsByClassName("results_display");
-        results.innerHTML = `Congrats! ${winner} wins!`;
+        document.querySelector('.display_player').style.display = "none";
+        document.querySelector('.end_message').textContent = "Game is Done!";
+        gameActive = false;
+        results.innerHTML = `Congrats! ${currentPlayer.name} (${winner}) wins!`;
+        
+
+        //displaying tie
+        } else if (gameboard.every(cell => cell !== '')) { 
+        document.querySelector('.display_player').style.display = "none";
+        document.querySelector('.end_message').textContent = "Game is Done!";
+        gameActive = false;
+        let results = document.getElementsByClassName("results_display")[0];
+        results.innerHTML = `It's a draw!`;   
+
+        //creating reset button
+        sectionArea = document.querySelector('.results');
+        const button = document.createElement('button');
+        button.id = 'reset-btn';
+        button.textContent = 'Play again?';
+        document.sectionArea.appendChild(button);
     }
 }
+
+// Function to reset game
+
+function resetgame() {
+
+    // Reset game state variables
+    gameboard = ['', '', '', '', '', '', '', '', ''];
+    gameActive = true;
+    currentPlayer = P1;
+
+    //erasing current player names 
+    
+    document.querySelector('.current_players').style.display = "none";
+
+    // Display the player info
+    document.querySelector('.display_player').style.display = 'block';
+
+    // Clear the game board cells
+    const board = document.querySelector('.game_display');
+    board.innerHTML = '';
+
+    // Clear result messages and button
+    const results = document.querySelector('.results_display');
+    results.innerHTML = '';
+    document.getElementById("reset-btn").style.display = "none";
+
+    // Reset the end message
+    document.querySelector('.end_message').textContent = '';
+
+    // Re-show the input form if needed
+    const inputArea = document.querySelector('.name_input');
+    if (inputArea.style.display === 'none') {
+        inputArea.style.display = 'block';
+    }
+}
+
+// Add event listener to the reset button
+document.getElementById('reset-btn').addEventListener('click', resetgame);
 }
 
 //calling game
