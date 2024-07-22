@@ -5,6 +5,8 @@ function Game() {
     //array to hold game position
 
     let gameboard = ['', '', '', '', '', '', '', '', ''];
+
+    //tracking if game is active
     let gameActive = true;
 
     //creating the players
@@ -32,7 +34,7 @@ function Game() {
             currentPlayer = P1;
 
 
-            //resetting form 
+            //resetting form and getting rid of input boxes
             event.target.reset();
 
             const inputArea = document.querySelector(".name_input");
@@ -51,9 +53,11 @@ function Game() {
             currentp1.innerHTML = `Player 1: ${P1.name}`;
             currentp2.innerHTML = `Player 2: ${P2.name}`;
 
-
             //calling render
             rendergame();
+
+            //calling update display
+            updateDisplay();
         });
     
 
@@ -84,10 +88,16 @@ function Game() {
             displayWinner();
             if (gameActive) {
                 currentPlayer = currentPlayer === P1 ? P2 : P1;
+                updateDisplay();
             }
         }
     }
 
+    // Function to show current player name
+    function updateDisplay() {
+        let playerDisplay = document.querySelector('.display_player')
+        playerDisplay.textContent = `Current player: ${currentPlayer.name}`;
+    }
     
     //function to create player move
 
@@ -126,12 +136,15 @@ function Game() {
         const winner = checkWinner(gameboard);
         const results = document.querySelector(".results_display");
         if (winner) {
+        document.querySelector('.display_player').style.display = "none";
+        document.querySelector('.end_message').textContent = "Game is Done!";
         gameActive = false;
         results.innerHTML = `Congrats! ${winner} wins!`;
+        
 
         //displaying tie
         } else if (gameboard.every(cell => cell !== '')) { 
-        gameActive = false; 
+        gameActive = false;
         let results = document.getElementsByClassName("results_display")[0];
         results.innerHTML = `It's a draw!`;
     }
