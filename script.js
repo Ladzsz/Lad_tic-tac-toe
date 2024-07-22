@@ -139,7 +139,7 @@ function Game() {
         document.querySelector('.display_player').style.display = "none";
         document.querySelector('.end_message').textContent = "Game is Done!";
         gameActive = false;
-        results.innerHTML = `Congrats! ${winner} wins!`;
+        results.innerHTML = `Congrats! ${currentPlayer.name} (${winner}) wins!`;
         
 
         //displaying tie
@@ -148,9 +148,54 @@ function Game() {
         document.querySelector('.end_message').textContent = "Game is Done!";
         gameActive = false;
         let results = document.getElementsByClassName("results_display")[0];
-        results.innerHTML = `It's a draw!`;
+        results.innerHTML = `It's a draw!`;   
+
+        //creating reset button
+        sectionArea = document.querySelector('.results');
+        const button = document.createElement('button');
+        button.id = 'reset-btn';
+        button.textContent = 'Play again?';
+        document.sectionArea.appendChild(button);
     }
 }
+
+// Function to reset game
+
+function resetgame() {
+
+    // Reset game state variables
+    gameboard = ['', '', '', '', '', '', '', '', ''];
+    gameActive = true;
+    currentPlayer = P1;
+
+    //erasing current player names 
+    
+    document.querySelector('.current_players').style.display = "none";
+
+    // Display the player info
+    document.querySelector('.display_player').style.display = 'block';
+
+    // Clear the game board cells
+    const board = document.querySelector('.game_display');
+    board.innerHTML = '';
+
+    // Clear result messages and button
+    const results = document.querySelector('.results_display');
+    results.innerHTML = '';
+    document.getElementById("reset-btn").style.display = "none";
+
+    // Reset the end message
+    document.querySelector('.end_message').textContent = '';
+
+    // Re-show the input form if needed
+    const inputArea = document.querySelector('.name_input');
+    if (inputArea.style.display === 'none') {
+        inputArea.style.display = 'block';
+    }
+}
+
+// Add event listener to the reset button
+document.getElementById('reset-btn').addEventListener('click', resetgame);
 }
 
 //calling game

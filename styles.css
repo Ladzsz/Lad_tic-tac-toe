@@ -62,3 +62,29 @@ fieldset {
 }
 
 /*styling results section*/
+
+.results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+    gap: 5%;
+}
+
+/*styling reset button*/
+
+#reset-btn {
+    padding: 20px;
+    border-radius: 36px;
+    color: white;
+    cursor: pointer;
+    background-color: lightcoral;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-top: 10px;
+}
+
+#reset-btn:hover {
+    color: black;
+}
