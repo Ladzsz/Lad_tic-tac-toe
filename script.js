@@ -96,7 +96,9 @@ function Game() {
     // Function to show current player name
     function updateDisplay() {
         let playerDisplay = document.querySelector('.display_player')
+        playerDisplay.style.display = "block";
         playerDisplay.textContent = `Current player: ${currentPlayer.name}`;
+        
     }
     
     //function to create player move
@@ -140,6 +142,9 @@ function Game() {
         document.querySelector('.end_message').textContent = "Game is Done!";
         gameActive = false;
         results.innerHTML = `Congrats! ${currentPlayer.name} (${winner}) wins!`;
+
+        //grabbing reset button
+        document.getElementById('reset-btn').style.display = "block";
         
 
         //displaying tie
@@ -150,13 +155,12 @@ function Game() {
         let results = document.getElementsByClassName("results_display")[0];
         results.innerHTML = `It's a draw!`;   
 
-        //creating reset button
-        sectionArea = document.querySelector('.results');
-        const button = document.createElement('button');
-        button.id = 'reset-btn';
-        button.textContent = 'Play again?';
-        document.sectionArea.appendChild(button);
+        //grabbing reset button
+        document.getElementById('reset-btn').style.display = "block";
+
+        
     }
+
 }
 
 // Function to reset game
@@ -173,7 +177,7 @@ function resetgame() {
     document.querySelector('.current_players').style.display = "none";
 
     // Display the player info
-    document.querySelector('.display_player').style.display = 'block';
+    document.querySelector('.display_player').style.display = 'none';
 
     // Clear the game board cells
     const board = document.querySelector('.game_display');
@@ -196,6 +200,7 @@ function resetgame() {
 
 // Add event listener to the reset button
 document.getElementById('reset-btn').addEventListener('click', resetgame);
+
 }
 
 //calling game
