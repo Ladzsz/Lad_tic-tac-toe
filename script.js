@@ -5,6 +5,7 @@ function Game() {
     //array to hold game position
 
     let gameboard = ['', '', '', '', '', '', '', '', ''];
+    let gameActive = true;
 
     //creating the players
 
@@ -12,6 +13,10 @@ function Game() {
         this.name = name;
         this.symbol = symbol;
     }
+
+    // Track the current player
+    let currentPlayer;
+    let P1, P2;
 
     //obtaining player names from user
 
@@ -22,8 +27,9 @@ function Game() {
             const player1 = document.getElementById("player1").value;
             const player2 = document.getElementById("player2").value;
 
-            const P1 = new Player(player1, "X");
-            const P2 = new Player(player2, "O");
+            P1 = new Player(player1, "X");
+            P2 = new Player(player2, "O");
+            currentPlayer = P1;
 
 
             //resetting form 
@@ -58,16 +64,29 @@ function Game() {
         //grabbing board
         let board = document.querySelector(".game_display");
 
-        //creating cells
-        gameboard.forEach(item => {
-            
-            if (item === "") {
-              const cell = document.createElement('div');
-              cell.classList.add('cell');
-              board.appendChild(cell);
+        // Creating cells
+        gameboard.forEach((item, index) => {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.dataset.index = index;
+            cell.innerHTML = item;
+            cell.addEventListener('click', handleCellClick);
+            board.appendChild(cell);
+        });
+    } 
+    
+    //Function to handle cell clicks
+    function handleCellClick(event) {
+        if (!gameActive) return;
+        const index = event.target.dataset.index;
+        if (playermove(index, currentPlayer.symbol)) {
+            event.target.innerHTML = currentPlayer.symbol;
+            displayWinner();
+            if (gameActive) {
+                currentPlayer = currentPlayer === P1 ? P2 : P1;
             }
-          });
-    }    
+        }
+    }
 
     
     //function to create player move
@@ -75,7 +94,9 @@ function Game() {
     function playermove(position, symbol) {
         if (gameboard[position] === "") {
             gameboard[position] = symbol;
+            return true;
         } 
+        return false;
     }
 
     //function to determine winner 
@@ -103,9 +124,16 @@ function Game() {
     function displayWinner() {
         // displaying the winner
         const winner = checkWinner(gameboard);
+        const results = document.querySelector(".results_display");
         if (winner) {
-        let results = document.getElementsByClassName("results_display");
+        gameActive = false;
         results.innerHTML = `Congrats! ${winner} wins!`;
+
+        //displaying tie
+        } else if (gameboard.every(cell => cell !== '')) { 
+        gameActive = false; 
+        let results = document.getElementsByClassName("results_display")[0];
+        results.innerHTML = `It's a draw!`;
     }
 }
 }
