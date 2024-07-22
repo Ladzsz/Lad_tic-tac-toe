@@ -144,6 +144,8 @@ function Game() {
 
         //displaying tie
         } else if (gameboard.every(cell => cell !== '')) { 
+        document.querySelector('.display_player').style.display = "none";
+        document.querySelector('.end_message').textContent = "Game is Done!";
         gameActive = false;
         let results = document.getElementsByClassName("results_display")[0];
         results.innerHTML = `It's a draw!`;
