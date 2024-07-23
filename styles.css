@@ -16,10 +16,23 @@ fieldset {
     display: flex;
     gap: 40px;
     justify-content: center;
+    margin-bottom: 2%;
 }
 
 #submit-btn {
     margin-top: 2%;
+    padding: 20px;
+    border-radius: 36px;
+    color: white;
+    cursor: pointer;
+    background-color: lightcoral;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-top: 10px;
+}
+
+#submit-btn:hover {
+    color: black;
 }
 
 /* styling game display */
@@ -84,6 +97,7 @@ fieldset {
     font-size: 1.1em;
     margin-top: 10px;
     display: none;
+    margin-bottom: 2%;
 }
 
 #reset-btn:hover {
