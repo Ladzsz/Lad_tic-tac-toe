@@ -44,14 +44,15 @@ function Game() {
             const currentp1 = document.querySelector(".player1");
             const currentp2 = document.querySelector(".player2");
             
+            document.querySelector('.current_players').style.display = "flex";
             currentp1.style.fontWeight = 'bold';
             currentp1.style.fontSize = '1.3em';
 
             currentp2.style.fontWeight = 'bold';
             currentp2.style.fontSize = '1.3em';
 
-            currentp1.innerHTML = `Player 1: ${P1.name}`;
-            currentp2.innerHTML = `Player 2: ${P2.name}`;
+            currentp1.innerHTML = `Player 1: ${P1.name} (X)`;
+            currentp2.innerHTML = `Player 2: ${P2.name} (O)`;
 
             //calling render
             rendergame();
@@ -97,7 +98,7 @@ function Game() {
     function updateDisplay() {
         let playerDisplay = document.querySelector('.display_player')
         playerDisplay.style.display = "block";
-        playerDisplay.textContent = `Current player: ${currentPlayer.name}`;
+        playerDisplay.textContent = `Current players turn: ${currentPlayer.name}`;
         
     }
     
@@ -172,9 +173,15 @@ function resetgame() {
     gameActive = true;
     currentPlayer = P1;
 
-    //erasing current player names 
-    
-    document.querySelector('.current_players').style.display = "none";
+    // Hide current players' names
+    const currentPlayers = document.querySelector('.current_players');
+    currentPlayers.style.display = 'none';
+
+    // Clear current players' names
+    const currentp1 = document.querySelector(".player1");
+    const currentp2 = document.querySelector(".player2");
+    currentp1.innerHTML = '';
+    currentp2.innerHTML = '';
 
     // Display the player info
     document.querySelector('.display_player').style.display = 'none';
